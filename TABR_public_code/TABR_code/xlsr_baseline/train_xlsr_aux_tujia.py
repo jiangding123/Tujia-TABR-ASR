@@ -799,18 +799,13 @@ def main():
     write_symbol_table(exp_dir / "notone_symbols.txt", notone_token2id)
     write_symbol_table(exp_dir / "tone_symbols.txt", tone_token2id)
 
-    # Validate all transcript mappings before expensive model loading.
+    # Validate only training and development transcripts before model loading.
     train_rows = validate_list_aux_labels(
         conf["train_list"], token2id, full_to_notone, full_to_tone
     )
     dev_rows = validate_list_aux_labels(
         conf["dev_list"], token2id, full_to_notone, full_to_tone
     )
-    if conf.get("test_list"):
-        _ = validate_list_aux_labels(
-            conf["test_list"], token2id, full_to_notone, full_to_tone
-        )
-
     experiment_name = str(conf.get("experiment_name", "XLS-R-AUX"))
 
     print("=" * 76)
