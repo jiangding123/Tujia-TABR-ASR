@@ -32,7 +32,7 @@ full paper results.
 ## TABR main-CTC-only inference
 
 The TABR launcher uses the `--main_ctc_only` option by default for FA N-best
-candidate generation. The trained FA encoder and main CTC projection are used during inference, without invoking the auxiliary tone head. CTC prefix beam search is employed solely to generate the N-best hypotheses. For each retained hypothesis, its full CTC sequence log-probability is independently recomputed from the FA main CTC frame-level probabilities and used as \(S_{\mathrm{FA}}\) in TABR rescoring. The prefix beam-search scores are not directly used in the final rescoring function.
+candidate generation. The trained FA encoder and main CTC projection are used during inference, without invoking the auxiliary tone head. CTC prefix beam search is employed solely to generate the N-best hypotheses. For each retained hypothesis, its full CTC sequence log-probability is independently recomputed from the FA main CTC frame-level probabilities and used as \(S_{FA}\) in TABR rescoring. The prefix beam-search scores are not directly used in the final rescoring function.
 
 
 The FA candidate cache contains `main_score`; `tone_score` and
