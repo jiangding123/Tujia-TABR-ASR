@@ -1,0 +1,85 @@
+file_purpose: documentation_summary_not_direct_executable_training_config
+model:
+  backbone: facebook/wav2vec2-xls-r-300m
+  sample_rate_hz: 16000
+data:
+  total_utterances: 2626
+  coverage_constrained_split:
+    train: 2107
+    dev: 257
+    test: 262
+  manifest: splits/coverage_constrained.csv
+output_labels:
+  full_syllable_dictionary: labels/tujia_syllable.txt
+  full_syllable_classes_excluding_reserved: 868
+  full_syllable_model_output_size: 871
+  base_syllable_dictionary: labels/dict_base.txt
+  base_syllable_classes_excluding_reserved: 325
+  base_syllable_model_output_size: 328
+  reserved_ids:
+    blank: 0
+    unk: 1
+    sos_eos: 2
+training:
+  seeds_reported:
+  - 777
+  - 888
+  - 999
+  baseline_config: xlsr300m_sp3.yaml
+  fa_config: xlsr300m_fa_tone04_sp3_seed777.yaml
+  base_launcher: xlsr_baseline/run_xlsr_notone_main_sp3.sh
+  shared_example_parameters:
+    epochs: 30
+    train_batch_size: 8
+    eval_batch_size: 8
+    gradient_accumulation_steps: 2
+    learning_rate: 0.0001
+    weight_decay: 0.01
+    warmup_steps: 500
+    max_grad_norm: 1.0
+    fp16: true
+    gradient_checkpointing: true
+    freeze_feature_encoder: true
+  fa:
+    auxiliary_task: tone
+    lambda_tone: 0.4
+    lambda_base: 0.0
+    tone_label_source: full_transcript_suffix_split
+  augmentation:
+    tool: SoX tempo -s
+    factors:
+    - 0.9
+    - 1.0
+    - 1.1
+tabr:
+  candidate_model: FA main CTC
+  main_ctc_only: true
+  independent_base_model: standalone base-syllable CTC
+  beam_size: 10
+  token_prune: 20
+  retained_candidates: 10
+  scoring_normalization: raw
+  alpha: 2.0
+  beta_tone: 0.0
+  dev_alpha_grid:
+  - 0
+  - 0.05
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.5
+  - 0.8
+  - 1
+  - 1.5
+  - 2
+  - 2.5
+  - 3
+  - 4
+  - 5
+  - 6
+  - 8
+  - 10
+  alpha_selection_split: development
+  alpha_selection_seed: 777
+reproducibility_note: Public split manifest contains anonymized metadata only; the
+  original audio and reference transcripts are restricted.
