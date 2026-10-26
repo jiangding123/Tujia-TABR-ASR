@@ -1,0 +1,8 @@
+# Install a mutually compatible CUDA or CPU build of torch + torchaudio.
+# Pin the exact tested versions before making an archival software release.
+torch
+torchaudio
+transformers
+numpy
+PyYAML
+# System dependency for augmentation: SoX (sox).
